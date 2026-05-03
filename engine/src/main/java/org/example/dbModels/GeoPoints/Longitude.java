@@ -2,16 +2,18 @@ package org.example.dbModels.GeoPoints;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Data;
 
+@Data
 @Embeddable
-public class Longitude
+public class Longitude implements GeoPoint
 {
     @Column(name = "lon_degrees")
-    private Integer degrees;
+    private double degrees;
 
     @Column(name = "lon_minutes")
-    private Integer minutes;
+    private double minutes;
 
     @Column(name = "lon_seconds")
-    private Integer seconds;
+    private double seconds;
 }

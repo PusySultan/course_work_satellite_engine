@@ -23,7 +23,7 @@ public class LocalityService
     private LocalityRepository localityRepository;
 
     private final ObjectMapper mapper = new ObjectMapper();
-    private HashMap<String, Function<String, Locality>> localityFindMap = new HashMap<>();
+    private final HashMap<String, Function<String, Locality>> localityFindMap = new HashMap<>();
     {
         localityFindMap.put("name", name -> localityRepository.getByName(name));
     }
