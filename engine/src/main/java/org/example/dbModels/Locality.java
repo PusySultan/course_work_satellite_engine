@@ -20,9 +20,15 @@ public class Locality
     @Column(unique = true)
     private String name;
 
+    /**
+    *  Широта (спутника) в градусах
+    */
     @Embedded
-    private Latitude latitude;   /// Широта (спутника)
+    private Latitude latitude;
 
+    /**
+     *  Долгота (спутника) в градусах
+     */
     @Embedded
-    private Longitude longitude;  /// Долгота (спутника)
+    private Longitude longitude;
 }
