@@ -1,8 +1,11 @@
 package org.example.controllers;
 
+import org.example.dbModels.Satellite;
 import org.example.dto.SatelliteDTO;
+import org.example.exceptions.GlobalException;
 import org.example.services.SatelliteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +17,36 @@ public class SatelliteController
     private SatelliteService satelliteService;
 
     @GetMapping("get/name")
-    public ResponseEntity<?> getSatellite()
+    public ResponseEntity<?> getSatellite(@RequestParam String name)
     {
-        return null;
+        String jsonString = """
+                {
+                   "satellite" :
+                   {
+                        "name" : "%s"
+                   }
+                }
+                """.formatted(name);;
+
+        Satellite satellite;
+
+        try {
+            satellite = satelliteService.getSatellite(jsonString);
+            return new ResponseEntity<>(satellite, HttpStatus.OK);
+        } catch (GlobalException e) {
+            return new ResponseEntity<>("err - " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createSatellite(@RequestBody SatelliteDTO dto)
     {
-        satelliteService.createSatellite(dto);
-        return ResponseEntity.ok("Спутник с именем " + dto.getSatelliteName() + " успешно создан");
+       try {
+           satelliteService.createSatellite(dto);
+           return ResponseEntity.ok("Спутник с именем " + dto.getName() + " успешно создан");
+       } catch (GlobalException e) {
+           return new ResponseEntity<>("err - " + e.getMessage(), HttpStatus.BAD_REQUEST);
+       }
     }
 
     @PutMapping

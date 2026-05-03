@@ -26,7 +26,7 @@ public class SatelliteService
     private final ObjectMapper mapper = new ObjectMapper();
     private final Map<String, Function<String, Satellite>> satelliteFindMap = new HashMap<>();
     {
-        satelliteFindMap.put("name", name -> satelliteRepository.getBySatelliteName(name));
+        satelliteFindMap.put("name", name -> satelliteRepository.getByName(name));
     }
 
     public Satellite getSatellite(String jsonBody)
@@ -106,7 +106,7 @@ public class SatelliteService
      */
     public void createSatellite(SatelliteDTO dto)
     {
-        if(satelliteRepository.existsBySatelliteName(dto.getSatelliteName())){
+        if(satelliteRepository.existsByName(dto.getName())){
             throw new GlobalException("Данный спутник уже существует, для обновления воспользуйтесь методом PUT");
         }
 

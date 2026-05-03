@@ -19,18 +19,18 @@ public class Satellite
     private Integer id;
 
     @Column(unique = true)
-    private String satelliteName;
+    private String name;
     private double EIRP;                /// ЭИИМ
-    private double carrierFrequency;    /// Несущая в ГГц
+    private double frequency;    /// Несущая в ГГц
 
     private Latitude latitude;   /// Широта (спутника)
     private Longitude longitude;  /// Долгота (спутника)
 
     public void createFromDTO(SatelliteDTO dto)
     {
-        this.satelliteName = dto.getSatelliteName();
+        this.name = dto.getName();
         this.EIRP = dto.getEIRP();
-        this.carrierFrequency = dto.getCarrierFrequency();
+        this.frequency = dto.getFrequency();
         this.latitude = dto.getLatitude();
         this.longitude = dto.getLongitude();
     }

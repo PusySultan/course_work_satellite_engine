@@ -11,9 +11,9 @@ import org.example.dbModels.GeoPoints.Longitude;
 @AllArgsConstructor
 public class SatelliteDTO
 {
-    private String satelliteName;
+    private String name;
     private Latitude latitude;
     private Longitude longitude;
-    private double EIRP;                /// ЭИИМ
-    private double carrierFrequency;    /// Несущая в ГГц
+    private double EIRP;        /// ЭИИМ
+    private double frequency;   /// Несущая в ГГц
 }
