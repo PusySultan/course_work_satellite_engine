@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.LocalityDTO;
 import org.example.dbModels.GeoPoints.Latitude;
 import org.example.dbModels.GeoPoints.Longitude;
 
@@ -31,4 +32,11 @@ public class Locality
      */
     @Embedded
     private Longitude longitude;
+
+    public void createFromDto(LocalityDTO dto)
+    {
+        this.name = dto.getName();
+        this.latitude = dto.getLatitude();
+        this.longitude = dto.getLongitude();
+    }
 }

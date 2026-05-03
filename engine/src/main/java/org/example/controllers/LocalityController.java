@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.LocalityDTO;
 import org.example.dbModels.Locality;
 import org.example.services.LocalityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,10 @@ public class LocalityController
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createLocality()
+    public ResponseEntity<?> createLocality(@RequestBody LocalityDTO locality)
     {
-        return null;
+        localityService.createLocality(locality);
+        return ResponseEntity.ok("Местность с именем " + locality.getName() + " успешно создана");
     }
 
     @PutMapping

@@ -1,0 +1,13 @@
+{
+    "name" : "Саранск",
+    "latitude" : {
+        "degrees" : 54,
+        "minutes": 11,
+        "seconds" : 1.7
+    },
+    "longitude" : {
+        "degrees" : 45,
+        "minutes": 10,
+        "seconds" : 29.6
+    }
+}

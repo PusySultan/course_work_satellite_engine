@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface LocalityRepository extends JpaRepository<Locality, Integer>
 {
     Locality getByName(String name);
+
+    boolean existsByName(String name);
 }
