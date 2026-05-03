@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SatelliteRepository extends JpaRepository<Satellite, Integer>
 {
-    Satellite getByName(String name);
+    Satellite getBySatelliteName(String satelliteName);
 
     boolean existsBySatelliteName(String satelliteName);
 }

@@ -14,6 +14,6 @@ public class SatelliteDTO
     private String satelliteName;
     private Latitude latitude;
     private Longitude longitude;
-    private Integer EIRP;                /// ЭИИМ
-    private Integer carrierFrequency;    /// Несущая в ГГц
+    private double EIRP;                /// ЭИИМ
+    private double carrierFrequency;    /// Несущая в ГГц
 }

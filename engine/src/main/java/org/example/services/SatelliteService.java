@@ -26,7 +26,7 @@ public class SatelliteService
     private final ObjectMapper mapper = new ObjectMapper();
     private final Map<String, Function<String, Satellite>> satelliteFindMap = new HashMap<>();
     {
-        satelliteFindMap.put("name", name -> satelliteRepository.getByName(name));
+        satelliteFindMap.put("name", name -> satelliteRepository.getBySatelliteName(name));
     }
 
     public Satellite getSatellite(String jsonBody)

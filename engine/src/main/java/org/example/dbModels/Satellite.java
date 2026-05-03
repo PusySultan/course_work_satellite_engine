@@ -20,8 +20,8 @@ public class Satellite
 
     @Column(unique = true)
     private String satelliteName;
-    private Integer EIRP;                /// ЭИИМ
-    private Integer carrierFrequency;    /// Несущая в ГГц
+    private double EIRP;                /// ЭИИМ
+    private double carrierFrequency;    /// Несущая в ГГц
 
     private Latitude latitude;   /// Широта (спутника)
     private Longitude longitude;  /// Долгота (спутника)

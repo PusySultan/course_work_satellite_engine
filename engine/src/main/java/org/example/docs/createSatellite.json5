@@ -1,0 +1,15 @@
+{
+  "satelliteName" : "Экспресс АТ2",
+  "EIRP" : 50,
+  "carrierFrequency" : 12.149,
+  "latitude" : {
+    "degrees" : 0,
+    "minutes": 0,
+    "seconds" : 0
+  },
+  "longitude" : {
+    "degrees" : 56,
+    "minutes": 0,
+    "seconds" : 0
+  }
+}
