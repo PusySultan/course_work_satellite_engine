@@ -46,6 +46,12 @@ public class LocalityService
         return locality;
     }
 
+    /**
+     * Возвращает блок информации о населенном пункте
+     * @param topJsonNode Объект в котором выполняется поиск
+     * @return JsonNode блок информации о спутнике
+     * @throws GlobalException при отсутствии блока с информацией
+     */
     private JsonNode getLocalityBlock(JsonNode topJsonNode)
     {
         if(!topJsonNode.has("locality")) {
@@ -55,33 +61,39 @@ public class LocalityService
         return topJsonNode.get("locality");
     }
 
+    /**
+     * Переводит строку в JsonNode
+     * @param jsonBody входная строка
+     * @return JsonNode
+     * @throws GlobalException при ошибке парсинг-а
+     */
     private JsonNode mapBody(String jsonBody)
     {
         try {
             return mapper.readTree(jsonBody);
         } catch (JacksonException e) {
-            throw new GlobalException("Ошибка при чтении тела запроса");
+            throw new GlobalException("Ошибка при чтении тела запроса в " + this.getClass().getName());
         }
     }
 
-    private Map.Entry<String, String> getSearchParam(JsonNode body)
+    private Map.Entry<String, String> getSearchParam(JsonNode topJsonNode)
     {
-        Field[] declaredFieldsField = Locality.class.getDeclaredFields();
+        Field[] declaredFields = Locality.class.getDeclaredFields();
 
-        for(Field currentField : declaredFieldsField)
+        for(Field currentField : declaredFields)
         {
             if(currentField.getName().equalsIgnoreCase("id")) {
                 continue;
             }
 
-            if(!body.has(currentField.getName().toLowerCase()))
+            if(!topJsonNode.has(currentField.getName().toLowerCase()))
             {
                 continue;
             }
 
             return new AbstractMap.SimpleEntry<>(
                     currentField.getName().toLowerCase(),
-                    body.get(currentField.getName().toLowerCase()).asText());
+                    topJsonNode.get(currentField.getName().toLowerCase()).asText());
         }
 
         throw new GlobalException("Нет корректного поля для поиска населенного пункта");
