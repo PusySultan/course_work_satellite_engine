@@ -1,5 +1,8 @@
 package org.example.controllers;
 
+import org.example.dto.SatelliteDTO;
+import org.example.services.SatelliteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,16 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/satellite")
 public class SatelliteController
 {
-    @GetMapping
+    @Autowired
+    private SatelliteService satelliteService;
+
+    @GetMapping("get/name")
     public ResponseEntity<?> getSatellite()
     {
         return null;
     }
 
-    @PostMapping
-    public ResponseEntity<?> createSatellite()
+    @PostMapping("/create")
+    public ResponseEntity<?> createSatellite(@RequestBody SatelliteDTO dto)
     {
-        return null;
+        satelliteService.createSatellite(dto);
+        return ResponseEntity.ok("Спутник с именем " + dto.getSatelliteName() + " успешно создан");
     }
 
     @PutMapping

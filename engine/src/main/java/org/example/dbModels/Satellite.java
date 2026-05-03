@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.dbModels.GeoPoints.Latitude;
 import org.example.dbModels.GeoPoints.Longitude;
+import org.example.dto.SatelliteDTO;
 
 @Entity             // - Отображение в БД
 @NoArgsConstructor  // - Автоматическое создание конструктора по умолчанию
@@ -24,4 +25,13 @@ public class Satellite
 
     private Latitude latitude;   /// Широта (спутника)
     private Longitude longitude;  /// Долгота (спутника)
+
+    public void createFromDTO(SatelliteDTO dto)
+    {
+        this.satelliteName = dto.getSatelliteName();
+        this.EIRP = dto.getEIRP();
+        this.carrierFrequency = dto.getCarrierFrequency();
+        this.latitude = dto.getLatitude();
+        this.longitude = dto.getLongitude();
+    }
 }
