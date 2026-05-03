@@ -1,5 +1,9 @@
 package org.example.controllers;
 
+import org.example.dbModels.Locality;
+import org.example.services.LocalityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,13 +11,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/locality")
 public class LocalityController
 {
-    @GetMapping
-    public ResponseEntity<?> getLocality()
+    @Autowired
+    private LocalityService localityService;
+
+    @GetMapping("/get/name")
+    public ResponseEntity<?> getLocality(@RequestParam String name)
     {
-        return null;
+        String jsonString = """
+                {
+                   "locality" :
+                   {
+                         "name" : "%s"
+                   }
+                }
+                """.formatted(name);;
+
+        Locality locality = localityService.getLocality(jsonString);
+        return new ResponseEntity<>(locality, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> createLocality()
     {
         return null;
