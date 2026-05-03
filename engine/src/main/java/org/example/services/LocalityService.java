@@ -1,6 +1,6 @@
 package org.example.services;
 
-import org.example.LocalityDTO;
+import org.example.dto.LocalityDTO;
 import org.example.dbModels.Locality;
 import org.example.exceptions.GlobalException;
 import org.example.repositories.LocalityRepository;
@@ -99,6 +99,11 @@ public class LocalityService
         throw new GlobalException("Нет корректного поля для поиска населенного пункта");
     }
 
+    /**
+     * Создает запись о местности в БД из переданной DTO
+     * @param dto информация о местности
+     * @throws GlobalException если местность с переданным именем уже существует
+     */
     public void createLocality(LocalityDTO dto)
     {
         if(localityRepository.existsByName(dto.getName())) {

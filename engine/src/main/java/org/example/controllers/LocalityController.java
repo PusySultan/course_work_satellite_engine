@@ -1,6 +1,6 @@
 package org.example.controllers;
 
-import org.example.LocalityDTO;
+import org.example.dto.LocalityDTO;
 import org.example.dbModels.Locality;
 import org.example.services.LocalityService;
 import org.springframework.beans.factory.annotation.Autowired;

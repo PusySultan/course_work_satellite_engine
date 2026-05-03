@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.LocalityDTO;
+import org.example.dto.LocalityDTO;
 import org.example.dbModels.GeoPoints.Latitude;
 import org.example.dbModels.GeoPoints.Longitude;
 
