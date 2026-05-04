@@ -7,19 +7,39 @@ import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 @Service
-public class OverrideService
-{
+public class OverrideService {
     private final ObjectMapper mapper = new ObjectMapper();
+    private final String[] requiredFields = new String[]{
+            "antennaDiameter", "antennaEfficiency", "gainConverter"
+    };
 
     public JsonNode getOverrideBlock(String jsonString)
     {
         JsonNode topJson = getTopJson(jsonString);
+        JsonNode overrideBlock = getOverrideBlock(topJson);
 
-        if(topJson.has("override")) {
-            return topJson.get("override");
+        validateOverrideBlock(overrideBlock);
+
+        return overrideBlock;
+    }
+
+    private void validateOverrideBlock(JsonNode topJson)
+    {
+        for (String field : requiredFields)
+        {
+            if(!topJson.has(field)) {
+                throw new GlobalException("В блоке констант и переопределений, отсутствует поле " + field);
+            }
+        }
+    }
+
+    private JsonNode getOverrideBlock(JsonNode topJson)
+    {
+        if (!topJson.has("override")) {
+            throw new GlobalException("Отсутствует блок переопределений и констант");
         }
 
-        return null;
+        return topJson.get("override");
     }
 
     private JsonNode getTopJson(String jsonString)

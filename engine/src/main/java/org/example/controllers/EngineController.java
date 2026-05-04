@@ -10,10 +10,7 @@ import org.example.services.SatelliteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
 
 @RestController
@@ -32,7 +29,7 @@ public class EngineController
     @Autowired
     private EngineService engineService;
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<?> process(@RequestBody String body)
     {
         try
@@ -41,9 +38,7 @@ public class EngineController
             Satellite satellite = satelliteService.getSatellite(body);
             JsonNode overrideBlock = overrideService.getOverrideBlock(body);
 
-            engineService.engine(locality, satellite, overrideBlock);
-
-            return null;
+            return new ResponseEntity<>(engineService.engine(locality, satellite, overrideBlock), HttpStatus.OK);
         }
         catch (GlobalException e)
         {
