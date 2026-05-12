@@ -31,11 +31,16 @@ public class LocalityService
 
     public Locality getLocality(String jsonBody)
     {
+        /// Конвертируем String в JsonNode
         JsonNode topJsonNode = mapBody(jsonBody);
+
+        /// Получаем блок о местности
         JsonNode localityBlock = getLocalityBlock(topJsonNode);
 
+        /// Получаем поисковые параметры
         Map.Entry<String, String> searchParam = getSearchParam(localityBlock);
 
+        /// Находим местность
         Locality locality = localityFindMap
                 .get(searchParam.getKey()).apply(searchParam.getValue());
 
@@ -76,6 +81,12 @@ public class LocalityService
         }
     }
 
+    /**
+     * Выполняет поиск в переданном JSON
+     * поля по которому можно найти спутник
+     * @param topJsonNode JSON
+     * @return имя поля и значение для поиска
+     */
     private Map.Entry<String, String> getSearchParam(JsonNode topJsonNode)
     {
         Field[] declaredFields = Locality.class.getDeclaredFields();

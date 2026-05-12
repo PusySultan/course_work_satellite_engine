@@ -101,7 +101,7 @@ public class EngineService
 
     /**
      * Рассчитывает шумовую температуру антенны, обусловленную фоновым шумом
-     * @param seatAngle угол места
+     * @param seatAngle угол места в радианах
      * @return шумовую температуру в Кельвинах
      */
     private double getAntennaNoiseTemperature(double seatAngle)

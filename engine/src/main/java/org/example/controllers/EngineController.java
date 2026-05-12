@@ -29,13 +29,27 @@ public class EngineController
     @Autowired
     private EngineService engineService;
 
+    /**
+     * Метод POST необходим, так как через
+     * командную строку в теле запроса GET
+     * проблемно передавать тело запроса
+     * @param body
+     * @return
+     */
     @PostMapping
     public ResponseEntity<?> process(@RequestBody String body)
     {
         try
         {
+            /// Получаем населенный пункт
             Locality locality = localityService.getLocality(body);
+
+            ///  Получаем спутник
             Satellite satellite = satelliteService.getSatellite(body);
+
+            /// Получаем антенну
+
+            /// Получаем список переопределений
             JsonNode overrideBlock = overrideService.getOverrideBlock(body);
 
             return new ResponseEntity<>(engineService.engine(locality, satellite, overrideBlock), HttpStatus.OK);
