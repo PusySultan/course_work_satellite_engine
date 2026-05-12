@@ -28,10 +28,10 @@ public class AntennaController
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createLocality(@RequestBody AntennaDTO antenna)
+    public ResponseEntity<?> createAntenna(@RequestBody AntennaDTO antennaDTO)
     {
-        // localityService.createLocality(locality);
-        return ResponseEntity.ok("Антенна с названием " + antenna.getName() + " успешно создана");
+        antennaService.createAntenna(antennaDTO);
+        return ResponseEntity.ok("Антенна с названием " + antennaDTO.getName() + " успешно создана");
     }
 
     @PutMapping

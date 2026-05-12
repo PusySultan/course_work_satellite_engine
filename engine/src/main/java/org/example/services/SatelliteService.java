@@ -29,7 +29,7 @@ public class SatelliteService
         satelliteFindMap.put("name", name -> satelliteRepository.getByName(name));
     }
 
-    public Satellite getSatellite(String jsonBody)
+    public Satellite getSatelliteBySatelliteBlock(String jsonBody)
     {
         JsonNode topJsonNode = mapBody(jsonBody);
         JsonNode satelliteBlock = getSatelliteBlock(topJsonNode);

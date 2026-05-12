@@ -34,8 +34,13 @@ public class AntennaService
         }
     }
 
+    public Antenna getAntennaByAntennaBlock(String topJson)
+    {
+        throw new GlobalException("Не реализован поиск антенны по блоку");
+    }
+
     /**
-     * Создаёт антенну по
+     * Создаёт антенну по ее DTO
      */
     public void createAntenna(AntennaDTO antennaDTO)
     {

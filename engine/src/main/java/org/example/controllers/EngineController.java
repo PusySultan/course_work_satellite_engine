@@ -1,12 +1,10 @@
 package org.example.controllers;
 
+import org.example.dbModels.Antenna;
 import org.example.dbModels.Locality;
 import org.example.dbModels.Satellite;
 import org.example.exceptions.GlobalException;
-import org.example.services.EngineService;
-import org.example.services.LocalityService;
-import org.example.services.OverrideService;
-import org.example.services.SatelliteService;
+import org.example.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +25,9 @@ public class EngineController
     private SatelliteService satelliteService;
 
     @Autowired
+    private AntennaService antennaService;
+
+    @Autowired
     private EngineService engineService;
 
     /**
@@ -45,9 +46,10 @@ public class EngineController
             Locality locality = localityService.getLocalityByLocalityBlock(body);
 
             ///  Получаем спутник
-            Satellite satellite = satelliteService.getSatellite(body);
+            Satellite satellite = satelliteService.getSatelliteBySatelliteBlock(body);
 
             /// Получаем антенну
+            Antenna antenna = antennaService.getAntennaByAntennaBlock(body);
 
             /// Получаем список переопределений
             JsonNode overrideBlock = overrideService.getOverrideBlock(body);

@@ -31,7 +31,7 @@ public class SatelliteController
         Satellite satellite;
 
         try {
-            satellite = satelliteService.getSatellite(jsonString);
+            satellite = satelliteService.getSatelliteBySatelliteBlock(jsonString);
             return new ResponseEntity<>(satellite, HttpStatus.OK);
         } catch (GlobalException e) {
             return new ResponseEntity<>("err - " + e.getMessage(), HttpStatus.BAD_REQUEST);
