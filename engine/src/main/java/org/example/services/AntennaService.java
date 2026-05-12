@@ -39,6 +39,10 @@ public class AntennaService
      */
     public void createAntenna(AntennaDTO antennaDTO)
     {
+        if (antennaRepository.existsByName(antennaDTO.getName())) {
+            throw new GlobalException("Данная антенна уже существует, для обновления воспользуйтесь методом PUT");
+        }
+
         Antenna antenna = new Antenna();
         antenna.createFromDTO(antennaDTO);
 

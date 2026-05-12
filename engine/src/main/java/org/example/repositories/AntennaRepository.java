@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface AntennaRepository extends JpaRepository<Antenna, Integer>
 {
     Antenna getByName(String name);
+
+    boolean existsByName(String name);
 }
