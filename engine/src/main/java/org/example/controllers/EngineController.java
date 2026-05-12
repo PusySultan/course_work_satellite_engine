@@ -42,7 +42,7 @@ public class EngineController
         try
         {
             /// Получаем населенный пункт
-            Locality locality = localityService.getLocality(body);
+            Locality locality = localityService.getLocalityByLocalityBlock(body);
 
             ///  Получаем спутник
             Satellite satellite = satelliteService.getSatellite(body);

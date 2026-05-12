@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.dto.AntennaDTO;
 import org.example.exceptions.GlobalException;
 
 import static java.lang.Math.*;
@@ -55,5 +56,12 @@ public class Antenna
         } catch (Exception e) {
             throw new GlobalException("Ошибка при расчете усиления антенны");
         }
+    }
+
+    public void createFromDTO(AntennaDTO antennaDTO)
+    {
+        this.name = antennaDTO.getName();
+        this.antennaDiameter = antennaDTO.getDiameter();
+        this.antennaEfficiency = antennaDTO.getEfficiency();
     }
 }
