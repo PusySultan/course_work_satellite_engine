@@ -28,8 +28,17 @@ public class LocalityService
     {
         localityFindMap.put("name", name -> localityRepository.getByName(name));
     }
+    
+    public Locality getLocalityByName(String name)
+    {
+        try {
+            return localityFindMap.get("name").apply(name);
+        } catch (Exception e) {
+            throw new GlobalException("Ошибка поиска местности");
+        }
+    }
 
-    public Locality getLocality(String jsonBody)
+    public Locality getLocalityByLocalityBlock(String jsonBody)
     {
         /// Конвертируем String в JsonNode
         JsonNode topJsonNode = mapBody(jsonBody);
