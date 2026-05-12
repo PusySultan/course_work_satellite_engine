@@ -1,20 +1,18 @@
 package org.example.services;
 
 import org.example.dbModels.Antenna;
-import org.example.dbModels.Locality;
 import org.example.dto.AntennaDTO;
 import org.example.exceptions.GlobalException;
 import org.example.repositories.AntennaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
 import java.util.function.Function;
 
 @Controller
-public class AntennaService
+public class AntennaService extends SatelliteObjectService
 {
     @Autowired
     private AntennaRepository antennaRepository;

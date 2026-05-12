@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class SatelliteService
+public class SatelliteService extends SatelliteObjectService
 {
     @Autowired
     private SatelliteRepository satelliteRepository;
@@ -31,7 +31,7 @@ public class SatelliteService
 
     public Satellite getSatelliteBySatelliteBlock(String jsonBody)
     {
-        JsonNode topJsonNode = mapBody(jsonBody);
+        JsonNode topJsonNode = this.mapBody(jsonBody);
         JsonNode satelliteBlock = getSatelliteBlock(topJsonNode);
 
         Map.Entry<String, String> searchParam = getSearchParam(satelliteBlock);
@@ -82,21 +82,6 @@ public class SatelliteService
         }
 
         return topJsonNode.get("satellite");
-    }
-
-    /**
-     * Переводит строку в JsonNode
-     * @param jsonBody входная строка
-     * @return JsonNode
-     * @throws GlobalException при ошибке парсинг-а
-     */
-    private JsonNode mapBody(String jsonBody)
-    {
-        try {
-            return mapper.readTree(jsonBody);
-        } catch (JacksonException e) {
-            throw new GlobalException("Ошибка при чтении тела запроса в " + this.getClass().getName());
-        }
     }
 
     /**

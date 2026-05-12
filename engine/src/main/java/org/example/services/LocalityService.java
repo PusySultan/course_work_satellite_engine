@@ -6,7 +6,6 @@ import org.example.exceptions.GlobalException;
 import org.example.repositories.LocalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -18,7 +17,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class LocalityService
+public class LocalityService extends SatelliteObjectService
 {
     @Autowired
     private LocalityRepository localityRepository;
@@ -28,7 +27,7 @@ public class LocalityService
     {
         localityFindMap.put("name", name -> localityRepository.getByName(name));
     }
-    
+
     public Locality getLocalityByName(String name)
     {
         try {
@@ -41,7 +40,7 @@ public class LocalityService
     public Locality getLocalityByLocalityBlock(String jsonBody)
     {
         /// Конвертируем String в JsonNode
-        JsonNode topJsonNode = mapBody(jsonBody);
+        JsonNode topJsonNode = this.mapBody(jsonBody);
 
         /// Получаем блок о местности
         JsonNode localityBlock = getLocalityBlock(topJsonNode);
@@ -73,21 +72,6 @@ public class LocalityService
         }
 
         return topJsonNode.get("locality");
-    }
-
-    /**
-     * Переводит строку в JsonNode
-     * @param jsonBody входная строка
-     * @return JsonNode
-     * @throws GlobalException при ошибке парсинг-а
-     */
-    private JsonNode mapBody(String jsonBody)
-    {
-        try {
-            return mapper.readTree(jsonBody);
-        } catch (JacksonException e) {
-            throw new GlobalException("Ошибка при чтении тела запроса в " + this.getClass().getName());
-        }
     }
 
     /**
