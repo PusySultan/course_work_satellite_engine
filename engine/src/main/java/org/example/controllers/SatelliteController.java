@@ -19,19 +19,10 @@ public class SatelliteController
     @GetMapping("get/name")
     public ResponseEntity<?> getSatellite(@RequestParam String name)
     {
-        String jsonString = """
-                {
-                   "satellite" :
-                   {
-                        "name" : "%s"
-                   }
-                }
-                """.formatted(name);;
-
         Satellite satellite;
 
         try {
-            satellite = satelliteService.getSatelliteBySatelliteBlock(jsonString);
+            satellite = satelliteService.getSatelliteByName(name);
             return new ResponseEntity<>(satellite, HttpStatus.OK);
         } catch (GlobalException e) {
             return new ResponseEntity<>("err - " + e.getMessage(), HttpStatus.BAD_REQUEST);

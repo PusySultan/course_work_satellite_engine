@@ -99,4 +99,13 @@ public class SatelliteService extends SatelliteObjectService
         satellite.createFromDTO(dto);
         satelliteRepository.save(satellite);
     }
+
+    public Satellite getSatelliteByName(String name)
+    {
+        try {
+            return satelliteFindMap.get("name").apply(name);
+        } catch (Exception e) {
+            throw new GlobalException("Ошибка поиска спутника");
+        }
+    }
 }
