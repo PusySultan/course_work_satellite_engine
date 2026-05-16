@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import org.example.dbModels.Antenna;
+import org.example.dbModels.ConverterTV;
 import org.example.dbModels.Locality;
 import org.example.dbModels.Satellite;
 import org.example.exceptions.GlobalException;
@@ -28,6 +29,9 @@ public class EngineController
     private AntennaService antennaService;
 
     @Autowired
+    private ConverterService converterService;
+
+    @Autowired
     private EngineService engineService;
 
     /**
@@ -43,13 +47,16 @@ public class EngineController
         try
         {
             /// Получаем населенный пункт
-            Locality locality = localityService.getLocalityByLocalityBlock(body);
+            Locality locality = localityService.getLocality(body);
 
             ///  Получаем спутник
-            Satellite satellite = satelliteService.getSatelliteBySatellitelock(body);
+            Satellite satellite = satelliteService.getSatellite(body);
 
             /// Получаем антенну
             Antenna antenna = antennaService.getAntenna(body);
+
+            /// Получаем конвертер
+            ConverterTV converterTV = converterService.getConverter(body);
 
             /// Получаем список переопределений
             JsonNode overrideBlock = overrideService.getOverrideBlock(body);
