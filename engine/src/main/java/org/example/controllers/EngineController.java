@@ -61,7 +61,10 @@ public class EngineController
             /// Получаем список переопределений
             JsonNode overrideBlock = overrideService.getOverrideBlock(body);
 
-            return new ResponseEntity<>(engineService.engine(locality, satellite, overrideBlock), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    engineService.engine(locality, satellite, antenna, converterTV, overrideBlock),
+                    HttpStatus.OK
+            );
         }
         catch (GlobalException e)
         {

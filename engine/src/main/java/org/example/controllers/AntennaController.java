@@ -2,6 +2,7 @@ package org.example.controllers;
 
 import org.example.dbModels.Antenna;
 import org.example.dto.AntennaDTO;
+import org.example.exceptions.GlobalException;
 import org.example.services.AntennaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,12 @@ public class AntennaController
     @PostMapping("/create")
     public ResponseEntity<?> createAntenna(@RequestBody AntennaDTO antennaDTO)
     {
-        antennaService.createAntenna(antennaDTO);
-        return ResponseEntity.ok("Антенна с названием " + antennaDTO.getName() + " успешно создана");
+        try {
+            antennaService.createAntenna(antennaDTO);
+            return ResponseEntity.ok("Антенна с названием " + antennaDTO.getName() + " успешно создана");
+        } catch (GlobalException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping
