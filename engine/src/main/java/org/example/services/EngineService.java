@@ -64,10 +64,10 @@ public class EngineService
         /// Рассчитываем коэффициент добротности
         double qualityFactor = getQualityFactor(Ga, Ttot);
 
-        double converterGain = getOriginalOrOverride(converterTV, "gain");
+        double converterGain = getOriginalOrOverride(converterTV, "converterGain");
 
         /// Рассчитываем трассу
-        return calculateTrack(satellite.getEIRP(), Lfs, Ga, converterGain);
+        return calculateTrack(getOriginalOrOverride(satellite, "EIRP"), Lfs, Ga, converterGain);
     }
 
     private HashMap<String, Double> calculateTrack(double eirp, double lfs, double Ga, double converterGain)

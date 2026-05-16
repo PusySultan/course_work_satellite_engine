@@ -21,11 +21,11 @@ public class ConverterTV
 
     private String name;
 
-    private double gain;
+    private double converterGain;
 
     public void createFromDTO(ConverterTV_DTO converterDTO)
     {
         this.name = converterDTO.getName();
-        this.gain = converterDTO.getGain();
+        this.converterGain = converterDTO.getConverterGain();
     }
 }

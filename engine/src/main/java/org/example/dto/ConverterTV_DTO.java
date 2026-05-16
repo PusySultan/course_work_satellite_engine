@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class ConverterTV_DTO
 {
     private String name;
-    private double gain;
+    private double converterGain;
 }
