@@ -7,17 +7,14 @@ import org.example.repositories.SatelliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.Field;
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class SatelliteServiceClass extends BaseModelServiceClass
+public class SatelliteService extends BaseModelServiceClass
 {
     @Autowired
     private SatelliteRepository satelliteRepository;

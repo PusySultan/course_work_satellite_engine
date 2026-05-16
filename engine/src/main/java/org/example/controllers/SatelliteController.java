@@ -3,7 +3,7 @@ package org.example.controllers;
 import org.example.dbModels.Satellite;
 import org.example.dto.SatelliteDTO;
 import org.example.exceptions.GlobalException;
-import org.example.services.SatelliteServiceClass;
+import org.example.services.SatelliteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class SatelliteController
 {
     @Autowired
-    private SatelliteServiceClass satelliteService;
+    private SatelliteService satelliteService;
 
     @GetMapping("get/name")
     public ResponseEntity<?> getSatellite(@RequestParam String name)

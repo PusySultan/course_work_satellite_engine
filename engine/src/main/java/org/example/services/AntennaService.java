@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Controller
-public class AntennaServiceClass extends BaseModelServiceClass
+public class AntennaService extends BaseModelServiceClass
 {
     @Autowired
     private AntennaRepository antennaRepository;
@@ -33,6 +33,11 @@ public class AntennaServiceClass extends BaseModelServiceClass
         }
     }
 
+    /**
+     * Находит антенну, по переданным параметрам в блоке
+     * @param topJsonStr блок запроса на расчет
+     * @return антенну
+     */
     public Antenna getAntenna(String topJsonStr)
     {
         /// Конвертируем String в JsonNode

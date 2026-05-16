@@ -19,13 +19,13 @@ public class EngineController
     private OverrideService overrideService;
 
     @Autowired
-    private LocalityServiceClass localityService;
+    private LocalityService localityService;
 
     @Autowired
-    private SatelliteServiceClass satelliteService;
+    private SatelliteService satelliteService;
 
     @Autowired
-    private AntennaServiceClass antennaService;
+    private AntennaService antennaService;
 
     @Autowired
     private EngineService engineService;

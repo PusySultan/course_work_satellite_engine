@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class LocalityServiceClass extends BaseModelServiceClass
+public class LocalityService extends BaseModelServiceClass
 {
     @Autowired
     private LocalityRepository localityRepository;

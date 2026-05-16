@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 public class AntennaDTO
 {
     private String name;
+
+    /// Диаметр антенны
     private double diameter;
+
+    /// КПД антенны
     private double efficiency;
 }
