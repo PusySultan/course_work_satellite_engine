@@ -7,7 +7,6 @@ import org.example.repositories.LocalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Field;
 import java.util.AbstractMap;
@@ -17,12 +16,11 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class LocalityService extends SatelliteObjectService
+public class LocalityServiceClass extends BaseModelServiceClass
 {
     @Autowired
     private LocalityRepository localityRepository;
 
-    private final ObjectMapper mapper = new ObjectMapper();
     private final HashMap<String, Function<String, Locality>> localityFindMap = new HashMap<>();
     {
         localityFindMap.put("name", name -> localityRepository.getByName(name));
@@ -37,16 +35,16 @@ public class LocalityService extends SatelliteObjectService
         }
     }
 
-    public Locality getLocalityByLocalityBlock(String jsonBody)
+    public Locality getLocalityByLocalityBlock(String topJsonStr)
     {
         /// Конвертируем String в JsonNode
-        JsonNode topJsonNode = this.mapBody(jsonBody);
+        JsonNode topJsonNode = super.mapBody(topJsonStr);
 
         /// Получаем блок о местности
-        JsonNode localityBlock = getLocalityBlock(topJsonNode);
+        JsonNode localityBlock = super.getRequiredBlockByName(topJsonNode, "locality");
 
         /// Получаем поисковые параметры
-        Map.Entry<String, String> searchParam = getSearchParam(localityBlock);
+        Map.Entry<String, String> searchParam = super.getSearchParam(localityBlock, Locality.class);
 
         /// Находим местность
         Locality locality = localityFindMap
@@ -60,27 +58,12 @@ public class LocalityService extends SatelliteObjectService
     }
 
     /**
-     * Возвращает блок информации о населенном пункте
-     * @param topJsonNode Объект в котором выполняется поиск
-     * @return JsonNode блок информации о спутнике
-     * @throws GlobalException при отсутствии блока с информацией
-     */
-    private JsonNode getLocalityBlock(JsonNode topJsonNode)
-    {
-        if(!topJsonNode.has("locality")) {
-            throw new GlobalException("Не указаны параметры для поиска населенного пункта");
-        }
-
-        return topJsonNode.get("locality");
-    }
-
-    /**
      * Выполняет поиск в переданном JSON
      * поля по которому можно найти спутник
-     * @param topJsonNode JSON
+     * @param searchBlock JSON
      * @return имя поля и значение для поиска
      */
-    private Map.Entry<String, String> getSearchParam(JsonNode topJsonNode)
+    private Map.Entry<String, String> getSearchParam(JsonNode searchBlock)
     {
         Field[] declaredFields = Locality.class.getDeclaredFields();
 
@@ -90,14 +73,14 @@ public class LocalityService extends SatelliteObjectService
                 continue;
             }
 
-            if(!topJsonNode.has(currentField.getName().toLowerCase()))
+            if(!searchBlock.has(currentField.getName().toLowerCase()))
             {
                 continue;
             }
 
             return new AbstractMap.SimpleEntry<>(
                     currentField.getName().toLowerCase(),
-                    topJsonNode.get(currentField.getName().toLowerCase()).asText());
+                    searchBlock.get(currentField.getName().toLowerCase()).asText());
         }
 
         throw new GlobalException("Нет корректного поля для поиска населенного пункта");

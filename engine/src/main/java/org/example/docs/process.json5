@@ -7,11 +7,11 @@
       // field : name
       "name" : "Ямал 401"
     },
-    antenn : {
+    "antenna" : {
       // field : name
       "name" : "antenna name"
     },
-    override : {
+    "override" : {
       "field_1" : "value_1",
       "field_2" : "value_2"
     }

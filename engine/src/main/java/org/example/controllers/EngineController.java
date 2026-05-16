@@ -19,13 +19,13 @@ public class EngineController
     private OverrideService overrideService;
 
     @Autowired
-    private LocalityService localityService;
+    private LocalityServiceClass localityService;
 
     @Autowired
-    private SatelliteService satelliteService;
+    private SatelliteServiceClass satelliteService;
 
     @Autowired
-    private AntennaService antennaService;
+    private AntennaServiceClass antennaService;
 
     @Autowired
     private EngineService engineService;
@@ -46,10 +46,10 @@ public class EngineController
             Locality locality = localityService.getLocalityByLocalityBlock(body);
 
             ///  Получаем спутник
-            Satellite satellite = satelliteService.getSatelliteBySatelliteBlock(body);
+            Satellite satellite = satelliteService.getSatelliteBySatellitelock(body);
 
             /// Получаем антенну
-            Antenna antenna = antennaService.getAntennaByAntennaBlock(body);
+            Antenna antenna = antennaService.getAntenna(body);
 
             /// Получаем список переопределений
             JsonNode overrideBlock = overrideService.getOverrideBlock(body);

@@ -6,18 +6,19 @@ import org.example.exceptions.GlobalException;
 import org.example.repositories.AntennaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 @Controller
-public class AntennaService extends SatelliteObjectService
+public class AntennaServiceClass extends BaseModelServiceClass
 {
     @Autowired
     private AntennaRepository antennaRepository;
 
-    private final ObjectMapper mapper = new ObjectMapper();
     private final HashMap<String, Function<String, Antenna>> antennaFindMap = new HashMap<>();
     {
         antennaFindMap.put("name", name -> antennaRepository.getByName(name));
@@ -32,10 +33,28 @@ public class AntennaService extends SatelliteObjectService
         }
     }
 
-    public Antenna getAntennaByAntennaBlock(String topJson)
+    public Antenna getAntenna(String topJsonStr)
     {
-        throw new GlobalException("Не реализован поиск антенны по блоку");
+        /// Конвертируем String в JsonNode
+        JsonNode topJsonNode = super.mapBody(topJsonStr);
+
+        /// Получаем блок об антенне
+        JsonNode antennaBlock = super.getRequiredBlockByName(topJsonNode, "antenna");
+
+        /// Получаем поисковые параметры
+        Map.Entry<String, String> searchParam = super.getSearchParam(antennaBlock, Antenna.class);
+
+        /// Находим антенну
+        Antenna antenna = antennaFindMap
+                .get(searchParam.getKey()).apply(searchParam.getValue());
+
+        if(Objects.isNull(antenna)) {
+            throw new GlobalException("Не существует антенны с переданными переданным параметрам");
+        }
+
+        return antenna;
     }
+
 
     /**
      * Создаёт антенну по ее DTO

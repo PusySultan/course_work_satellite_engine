@@ -2,7 +2,7 @@ package org.example.controllers;
 
 import org.example.dbModels.Antenna;
 import org.example.dto.AntennaDTO;
-import org.example.services.AntennaService;
+import org.example.services.AntennaServiceClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class AntennaController
 {
     @Autowired
-    private AntennaService antennaService;
+    private AntennaServiceClass antennaService;
 
     @GetMapping("get/name")
     public ResponseEntity<?> getAntenna(@RequestParam String name)

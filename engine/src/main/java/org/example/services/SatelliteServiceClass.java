@@ -6,7 +6,6 @@ import org.example.exceptions.GlobalException;
 import org.example.repositories.SatelliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -18,24 +17,28 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class SatelliteService extends SatelliteObjectService
+public class SatelliteServiceClass extends BaseModelServiceClass
 {
     @Autowired
     private SatelliteRepository satelliteRepository;
 
-    private final ObjectMapper mapper = new ObjectMapper();
     private final Map<String, Function<String, Satellite>> satelliteFindMap = new HashMap<>();
     {
         satelliteFindMap.put("name", name -> satelliteRepository.getByName(name));
     }
 
-    public Satellite getSatelliteBySatelliteBlock(String jsonBody)
+    public Satellite getSatelliteBySatellitelock(String topJsonStr)
     {
-        JsonNode topJsonNode = this.mapBody(jsonBody);
-        JsonNode satelliteBlock = getSatelliteBlock(topJsonNode);
+        /// Конвертируем String в JsonNode
+        JsonNode topJsonNode = super.mapBody(topJsonStr);
 
-        Map.Entry<String, String> searchParam = getSearchParam(satelliteBlock);
+        /// Получаем блок о спутнике
+        JsonNode satelliteBlock = super.getRequiredBlockByName(topJsonNode, "satellite");
 
+        /// Получаем параметры поиска
+        Map.Entry<String, String> searchParam = super.getSearchParam(satelliteBlock, Satellite.class);
+
+        /// Находим спутник
         Satellite satellite = satelliteFindMap
                 .get(searchParam.getKey()).apply(searchParam.getValue());
 
@@ -46,7 +49,8 @@ public class SatelliteService extends SatelliteObjectService
         return satellite;
     }
 
-    private Map.Entry<String, String> getSearchParam(JsonNode satelliteBlock)
+    /*
+    private Map.Entry<String, String> getSearchParam(JsonNode searchBlock)
     {
         Field[] declaredFields = Satellite.class.getDeclaredFields();
 
@@ -56,33 +60,19 @@ public class SatelliteService extends SatelliteObjectService
                 continue;
             }
 
-            if(!satelliteBlock.has(currentField.getName().toLowerCase()))
+            if(!searchBlock.has(currentField.getName().toLowerCase()))
             {
                 continue;
             }
 
             return new AbstractMap.SimpleEntry<>(
                     currentField.getName().toLowerCase(),
-                    satelliteBlock.get(currentField.getName().toLowerCase()).asText());
+                    searchBlock.get(currentField.getName().toLowerCase()).asText());
         }
 
         throw new GlobalException("Нет корректного поля для поиска спутника");
     }
-
-    /**
-     * Возвращает блок информации о спутнике
-     * @param topJsonNode Объект в котором выполняется поиск
-     * @return JsonNode блок информации о спутнике
-     * @throws GlobalException при отсутствии блока с информацией
      */
-    private JsonNode getSatelliteBlock(JsonNode topJsonNode)
-    {
-        if(!topJsonNode.has("satellite")) {
-            throw new GlobalException("Не указаны параметры для поиска спутника");
-        }
-
-        return topJsonNode.get("satellite");
-    }
 
     /**
      * Создает запись о спутнике в БД из переданной DTO
