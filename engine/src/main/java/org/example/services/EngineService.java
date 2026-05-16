@@ -155,6 +155,7 @@ public class EngineService
      */
     private double getNoiseFactorConverterUnit()
     {
+        if (overrideBlock.has("NF")) NF = overrideBlock.get("NF").asDouble();
         return pow(10, (NF/10));
     }
 
