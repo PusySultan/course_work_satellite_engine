@@ -15,20 +15,22 @@ public class LocalityController
     @Autowired
     private LocalityService localityService;
 
+    /**
+     * /// Реализовать метод поиска мо имени, без предварительного форматирования
+     * @param name имя спутника
+     * @return Спутник
+     */
+    @Deprecated
     @GetMapping("/get/name")
     public ResponseEntity<?> getLocality(@RequestParam String name)
     {
-        String jsonString = """
-                {
-                   "locality" :
-                   {
-                         "name" : "%s"
-                   }
-                }
-                """.formatted(name);;
-
-        Locality locality = localityService.getLocality(jsonString);
-        return new ResponseEntity<>(locality, HttpStatus.OK);
+        Locality locality;
+        try {
+            locality = localityService.getLocalityByName(name);
+            return new ResponseEntity<>(locality, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/create")

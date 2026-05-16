@@ -6,36 +6,36 @@ import org.example.exceptions.GlobalException;
 import org.example.repositories.SatelliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.Field;
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class SatelliteService
+public class SatelliteService extends BaseModelServiceClass
 {
     @Autowired
     private SatelliteRepository satelliteRepository;
 
-    private final ObjectMapper mapper = new ObjectMapper();
     private final Map<String, Function<String, Satellite>> satelliteFindMap = new HashMap<>();
     {
         satelliteFindMap.put("name", name -> satelliteRepository.getByName(name));
     }
 
-    public Satellite getSatellite(String jsonBody)
+    public Satellite getSatellite(String topJsonStr)
     {
-        JsonNode topJsonNode = mapBody(jsonBody);
-        JsonNode satelliteBlock = getSatelliteBlock(topJsonNode);
+        /// Конвертируем String в JsonNode
+        JsonNode topJsonNode = super.mapBody(topJsonStr);
 
-        Map.Entry<String, String> searchParam = getSearchParam(satelliteBlock);
+        /// Получаем блок о спутнике
+        JsonNode satelliteBlock = super.getRequiredBlockByName(topJsonNode, "satellite");
 
+        /// Получаем параметры поиска
+        Map.Entry<String, String> searchParam = super.getSearchParam(satelliteBlock, Satellite.class);
+
+        /// Находим спутник
         Satellite satellite = satelliteFindMap
                 .get(searchParam.getKey()).apply(searchParam.getValue());
 
@@ -46,7 +46,8 @@ public class SatelliteService
         return satellite;
     }
 
-    private Map.Entry<String, String> getSearchParam(JsonNode satelliteBlock)
+    /*
+    private Map.Entry<String, String> getSearchParam(JsonNode searchBlock)
     {
         Field[] declaredFields = Satellite.class.getDeclaredFields();
 
@@ -56,48 +57,19 @@ public class SatelliteService
                 continue;
             }
 
-            if(!satelliteBlock.has(currentField.getName().toLowerCase()))
+            if(!searchBlock.has(currentField.getName().toLowerCase()))
             {
                 continue;
             }
 
             return new AbstractMap.SimpleEntry<>(
                     currentField.getName().toLowerCase(),
-                    satelliteBlock.get(currentField.getName().toLowerCase()).asText());
+                    searchBlock.get(currentField.getName().toLowerCase()).asText());
         }
 
         throw new GlobalException("Нет корректного поля для поиска спутника");
     }
-
-    /**
-     * Возвращает блок информации о спутнике
-     * @param topJsonNode Объект в котором выполняется поиск
-     * @return JsonNode блок информации о спутнике
-     * @throws GlobalException при отсутствии блока с информацией
      */
-    private JsonNode getSatelliteBlock(JsonNode topJsonNode)
-    {
-        if(!topJsonNode.has("satellite")) {
-            throw new GlobalException("Не указаны параметры для поиска спутника");
-        }
-
-        return topJsonNode.get("satellite");
-    }
-
-    /**
-     * Переводит строку в JsonNode
-     * @param jsonBody входная строка
-     * @return JsonNode
-     * @throws GlobalException при ошибке парсинг-а
-     */
-    private JsonNode mapBody(String jsonBody)
-    {
-        try {
-            return mapper.readTree(jsonBody);
-        } catch (JacksonException e) {
-            throw new GlobalException("Ошибка при чтении тела запроса в " + this.getClass().getName());
-        }
-    }
 
     /**
      * Создает запись о спутнике в БД из переданной DTO
@@ -113,5 +85,14 @@ public class SatelliteService
         Satellite satellite = new Satellite();
         satellite.createFromDTO(dto);
         satelliteRepository.save(satellite);
+    }
+
+    public Satellite getSatelliteByName(String name)
+    {
+        try {
+            return satelliteFindMap.get("name").apply(name);
+        } catch (Exception e) {
+            throw new GlobalException("Ошибка поиска спутника");
+        }
     }
 }

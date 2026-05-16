@@ -1,0 +1,22 @@
+{
+    "locality" : {
+      // field : name
+      "name" : "Саранск"
+    },
+    "satellite" : {
+      // field : name
+      "name" : "Ямал 401"
+    },
+    "antenna" : {
+      // field : name
+      "name" : "antenna name"
+    },
+    "converter" : {
+      // field : name
+      "name" : "antenna name"
+    },
+    "override" : {
+      "field_1" : "value_1",
+      "field_2" : "value_2"
+    }
+}
