@@ -35,7 +35,7 @@ public class LocalityService extends BaseModelServiceClass
         }
     }
 
-    public Locality getLocalityByLocalityBlock(String topJsonStr)
+    public Locality getLocality(String topJsonStr)
     {
         /// Конвертируем String в JsonNode
         JsonNode topJsonNode = super.mapBody(topJsonStr);

@@ -24,7 +24,7 @@ public class SatelliteService extends BaseModelServiceClass
         satelliteFindMap.put("name", name -> satelliteRepository.getByName(name));
     }
 
-    public Satellite getSatelliteBySatellitelock(String topJsonStr)
+    public Satellite getSatellite(String topJsonStr)
     {
         /// Конвертируем String в JsonNode
         JsonNode topJsonNode = super.mapBody(topJsonStr);
