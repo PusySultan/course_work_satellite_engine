@@ -20,7 +20,6 @@ public class LocalityController
      * @param name имя спутника
      * @return Спутник
      */
-    @Deprecated
     @GetMapping("/get/name")
     public ResponseEntity<?> getLocality(@RequestParam String name)
     {

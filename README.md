@@ -16,7 +16,7 @@
 Сервер поднимется на http://localhost:8080
 ```
 # Клонировать репозиторий
-git clone https://github.com/PusySultan/course_work_satellite_engine.git
+git clone https://github.com/kirill-solodukhin/course_work_satellite_engine.git 
 
 # Настроить подключение к БД в application.properties
 # spring.datasource.url=jdbc:postgresql://localhost:5432/satcalc
